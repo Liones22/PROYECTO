@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Profesional de Contabilidad</title>
+  <!-- Vinculación del CSS -->
+  <link rel="stylesheet" href="styles.css">
+  <!-- Vinculación de Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <h1>Banco Virtual</h1>
+      <h2>Dashboard de Contabilidad de Ingresos y Egresos</h2>
+    </div>
+  </header>
+  <main>
+    <!-- Sección de resumen -->
+    <section class="summary">
+      <div class="card">
+        <h3>Ingresos</h3>
+        <p id="totalIncome">$0.00</p>
+      </div>
+      <div class="card">
+        <h3>Egresos</h3>
+        <p id="totalExpense">$0.00</p>
+      </div>
+      <div class="card">
+        <h3>Balance</h3>
+        <p id="netBalance">$0.00</p>
+      </div>
+    </section>
+
+    <!-- Sección de historial de transacciones -->
+    <section class="transactions">
+      <h2>Historial de Transacciones</h2>
+      <table id="transactionsTable">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Descripción</th>
+            <th>Concepto</th>
+            <th>Tipo</th>
+            <th>Monto</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Las transacciones se agregarán dinámicamente -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Sección para agregar nuevas transacciones -->
+    <section class="transaction-form-section">
+      <h2>Agregar Transacción</h2>
+      <form id="transactionForm">
+        <div class="form-group">
+          <label for="date">Fecha:</label>
+          <input type="date" id="date" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Descripción:</label>
+          <input type="text" id="description" placeholder="Detalle de la transacción" required>
+        </div>
+        <div class="form-group">
+          <label for="amount">Monto:</label>
+          <!-- Se cambia a tipo "text" para permitir el formateo -->
+          <input type="text" id="amount" inputmode="numeric" placeholder="$0.00" required>
+        </div>
+        <div class="form-group">
+          <label for="type">Tipo:</label>
+          <select id="type" required>
+            <option value="">Seleccione...</option>
+            <option value="income">Ingreso</option>
+            <option value="expense">Egreso</option>
+          </select>
+        </div>
+        <!-- Campo de Concepto que se actualizará dinámicamente -->
+        <div class="form-group" id="conceptGroup" style="display:none;">
+          <label for="concept">Concepto:</label>
+          <select id="concept" required>
+            <!-- Opciones se cargarán según el tipo -->
+          </select>
+        </div>
+        <button type="submit">Agregar Transacción</button>
+      </form>
+    </section>
+
+    <!-- Sección de gráficos -->
+    <section class="charts">
+      <div class="chart-container">
+        <h3>Egreso por Concepto</h3>
+        <canvas id="expensesPieChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Ingresos por Concepto</h3>
+        <canvas id="incomesPieChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Ingresos Mensuales</h3>
+        <canvas id="incomesBarChart"></canvas>
+      </div>
+      <div class="chart-container">
+        <h3>Egresos Mensuales</h3>
+        <canvas id="expensesBarChart"></canvas>
+      </div>
+    </section>
+  </main>
+  <!-- Vinculación del JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
