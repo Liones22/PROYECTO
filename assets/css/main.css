@@ -1,0 +1,112 @@
+:root {
+  --bg: #f3f6fb;
+  --text-main: #24344d;
+  --brand: #2b59d4;
+  --hero-start: #1f3278;
+  --hero-end: #2e63d8;
+  --income: #1fa97a;
+  --expense: #e05151;
+  --shadow-soft: 0 14px 26px rgba(20, 44, 94, 0.1);
+}
+
+* {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+body {
+  background: linear-gradient(180deg, #eef3ff, var(--bg));
+  color: var(--text-main);
+}
+
+.hero {
+  background: radial-gradient(circle at 85% -20%, #4e7af1 0%, transparent 40%), linear-gradient(120deg, var(--hero-start), var(--hero-end));
+}
+
+.badge-soft {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+}
+
+.shadow-soft {
+  border: 0;
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+}
+
+.kpi-card {
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4px;
+}
+
+.kpi-income::after { background: var(--income); }
+.kpi-expense::after { background: var(--expense); }
+.kpi-balance::after { background: #5564f7; }
+.kpi-savings::after { background: #b67a11; }
+
+.kpi-value {
+  font-size: 1.65rem;
+  font-weight: 800;
+}
+
+.chart-card {
+  min-height: 370px;
+}
+
+.progress {
+  height: 11px;
+  border-radius: 999px;
+}
+
+.progress-bar {
+  transition: width 0.45s ease;
+}
+
+.pill-type {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.pill-income {
+  color: #0f7c56;
+  background: #d6f6e9;
+}
+
+.pill-expense {
+  color: #a53737;
+  background: #fddede;
+}
+
+.amount-income {
+  color: #118861;
+  font-weight: 700;
+}
+
+.amount-expense {
+  color: #bf4141;
+  font-weight: 700;
+}
+
+.dt-buttons,
+.dataTables_length,
+.dataTables_filter,
+.dataTables_info,
+.dataTables_paginate {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .kpi-value {
+    font-size: 1.4rem;
+  }
+}

@@ -1,0 +1,28 @@
+<template id="edit-form-template">
+  <input type="hidden" id="editId" />
+  <div class="row g-3">
+    <div class="col-12">
+      <label for="editDate" class="form-label">Fecha</label>
+      <input type="date" id="editDate" class="form-control" required />
+    </div>
+    <div class="col-12">
+      <label for="editDescription" class="form-label">Descripción</label>
+      <input type="text" id="editDescription" class="form-control" required />
+    </div>
+    <div class="col-6">
+      <label for="editType" class="form-label">Tipo</label>
+      <select id="editType" class="form-select" required>
+        <option value="income">Ingreso</option>
+        <option value="expense">Egreso</option>
+      </select>
+    </div>
+    <div class="col-6">
+      <label for="editConcept" class="form-label">Concepto</label>
+      <select id="editConcept" class="form-select" required></select>
+    </div>
+    <div class="col-12">
+      <label for="editAmount" class="form-label">Monto</label>
+      <input type="number" id="editAmount" class="form-control" min="0" step="0.01" required />
+    </div>
+  </div>
+</template>
