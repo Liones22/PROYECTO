@@ -3,112 +3,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Profesional de Contabilidad</title>
-  <!-- Vinculación del CSS -->
+  <title>Banco Virtual | Dashboard Financiero</title>
   <link rel="stylesheet" href="styles.css">
-  <!-- Vinculación de Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <header>
-    <div class="header-container">
-      <h1>Banco Virtual</h1>
-      <h2>Dashboard de Contabilidad de Ingresos y Egresos</h2>
+  <header class="topbar">
+    <div class="header-content">
+      <div>
+        <p class="badge">Banco Virtual</p>
+        <h1>Dashboard financiero personal</h1>
+        <p class="subtitle">Controla ingresos, egresos, metas y comportamiento mensual desde un solo lugar.</p>
+      </div>
+      <div class="header-actions">
+        <button id="seedDataBtn" class="btn secondary">Cargar ejemplo</button>
+        <button id="clearDataBtn" class="btn danger">Limpiar datos</button>
+      </div>
     </div>
   </header>
-  <main>
-    <!-- Sección de resumen -->
-    <section class="summary">
-      <div class="card">
-        <h3>Ingresos</h3>
+
+  <main class="container">
+    <section class="summary" aria-label="Indicadores principales">
+      <article class="card income">
+        <h2>Ingresos</h2>
         <p id="totalIncome">$0.00</p>
-      </div>
-      <div class="card">
-        <h3>Egresos</h3>
+      </article>
+      <article class="card expense">
+        <h2>Egresos</h2>
         <p id="totalExpense">$0.00</p>
-      </div>
-      <div class="card">
-        <h3>Balance</h3>
+      </article>
+      <article class="card balance">
+        <h2>Balance</h2>
         <p id="netBalance">$0.00</p>
-      </div>
+      </article>
+      <article class="card savings">
+        <h2>Tasa de ahorro</h2>
+        <p id="savingsRate">0%</p>
+      </article>
     </section>
 
-    <!-- Sección de historial de transacciones -->
-    <section class="transactions">
-      <h2>Historial de Transacciones</h2>
-      <table id="transactionsTable">
-        <thead>
-          <tr>
-            <th>Fecha</th>
-            <th>Descripción</th>
-            <th>Concepto</th>
-            <th>Tipo</th>
-            <th>Monto</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Las transacciones se agregarán dinámicamente -->
-        </tbody>
-      </table>
-    </section>
+    <section class="grid-2">
+      <article class="panel">
+        <h2>Gestión de transacciones</h2>
+        <form id="transactionForm" class="form-grid" autocomplete="off">
+          <div class="form-group">
+            <label for="date">Fecha</label>
+            <input type="date" id="date" required>
+          </div>
+          <div class="form-group">
+            <label for="description">Descripción</label>
+            <input type="text" id="description" placeholder="Ej. Pago de internet" required>
+          </div>
+          <div class="form-group">
+            <label for="amount">Monto</label>
+            <input type="text" id="amount" inputmode="decimal" placeholder="$0.00" required>
+          </div>
+          <div class="form-group">
+            <label for="type">Tipo</label>
+            <select id="type" required>
+              <option value="">Seleccione...</option>
+              <option value="income">Ingreso</option>
+              <option value="expense">Egreso</option>
+            </select>
+          </div>
+          <div class="form-group" id="conceptGroup" hidden>
+            <label for="concept">Concepto</label>
+            <select id="concept" required></select>
+          </div>
+          <button type="submit" class="btn primary">Agregar transacción</button>
+        </form>
 
-    <!-- Sección para agregar nuevas transacciones -->
-    <section class="transaction-form-section">
-      <h2>Agregar Transacción</h2>
-      <form id="transactionForm">
-        <div class="form-group">
-          <label for="date">Fecha:</label>
-          <input type="date" id="date" required>
+        <div class="budget-box">
+          <h3>Presupuesto mensual de egresos</h3>
+          <div class="budget-row">
+            <input type="number" id="budgetInput" min="0" step="0.01" placeholder="Ej. 2500">
+            <button id="saveBudgetBtn" class="btn secondary" type="button">Guardar presupuesto</button>
+          </div>
+          <p id="budgetStatus">Aún no tienes presupuesto configurado.</p>
         </div>
-        <div class="form-group">
-          <label for="description">Descripción:</label>
-          <input type="text" id="description" placeholder="Detalle de la transacción" required>
-        </div>
-        <div class="form-group">
-          <label for="amount">Monto:</label>
-          <!-- Se cambia a tipo "text" para permitir el formateo -->
-          <input type="text" id="amount" inputmode="numeric" placeholder="$0.00" required>
-        </div>
-        <div class="form-group">
-          <label for="type">Tipo:</label>
-          <select id="type" required>
-            <option value="">Seleccione...</option>
-            <option value="income">Ingreso</option>
-            <option value="expense">Egreso</option>
+      </article>
+
+      <article class="panel">
+        <h2>Actividad reciente</h2>
+        <div class="filters">
+          <input type="search" id="searchInput" placeholder="Buscar por descripción o concepto...">
+          <select id="filterType">
+            <option value="all">Todos</option>
+            <option value="income">Solo ingresos</option>
+            <option value="expense">Solo egresos</option>
           </select>
+          <button id="exportCsvBtn" class="btn secondary" type="button">Exportar CSV</button>
         </div>
-        <!-- Campo de Concepto que se actualizará dinámicamente -->
-        <div class="form-group" id="conceptGroup" style="display:none;">
-          <label for="concept">Concepto:</label>
-          <select id="concept" required>
-            <!-- Opciones se cargarán según el tipo -->
-          </select>
+        <div class="table-wrapper">
+          <table id="transactionsTable">
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Descripción</th>
+                <th>Concepto</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
-        <button type="submit">Agregar Transacción</button>
-      </form>
+        <p id="emptyState" class="empty-state">No hay transacciones registradas.</p>
+      </article>
     </section>
 
-    <!-- Sección de gráficos -->
-    <section class="charts">
-      <div class="chart-container">
-        <h3>Egreso por Concepto</h3>
-        <canvas id="expensesPieChart"></canvas>
-      </div>
-      <div class="chart-container">
-        <h3>Ingresos por Concepto</h3>
-        <canvas id="incomesPieChart"></canvas>
-      </div>
-      <div class="chart-container">
-        <h3>Ingresos Mensuales</h3>
-        <canvas id="incomesBarChart"></canvas>
-      </div>
-      <div class="chart-container">
-        <h3>Egresos Mensuales</h3>
-        <canvas id="expensesBarChart"></canvas>
+    <section class="charts panel">
+      <h2>Visualización financiera</h2>
+      <div class="charts-grid">
+        <div class="chart-container"><h3>Egresos por concepto</h3><canvas id="expensesPieChart"></canvas></div>
+        <div class="chart-container"><h3>Ingresos por concepto</h3><canvas id="incomesPieChart"></canvas></div>
+        <div class="chart-container"><h3>Flujo mensual</h3><canvas id="cashflowLineChart"></canvas></div>
+        <div class="chart-container"><h3>Comparativo mensual</h3><canvas id="comparisonBarChart"></canvas></div>
       </div>
     </section>
   </main>
-  <!-- Vinculación del JavaScript -->
+
   <script src="script.js"></script>
 </body>
 </html>
